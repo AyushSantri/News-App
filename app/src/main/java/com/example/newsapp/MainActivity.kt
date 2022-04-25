@@ -12,5 +12,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         recycleView.layoutManager = LinearLayoutManager(this)
+        val items = fetchData()
+
+        //created the instance of adapter
+        val adapter = NewsAdapter(items)
+
+        //attached our adapter to recycle view adapter
+        recycleView.adapter = adapter
+    }
+
+    private fun fetchData(): ArrayList<String> {
+        val list = ArrayList<String>()
+
+        for (i in 0 until 100) {
+            list.add("item $i")
+        }
+
+        return list
     }
 }
