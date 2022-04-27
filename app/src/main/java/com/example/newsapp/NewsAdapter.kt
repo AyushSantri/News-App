@@ -1,12 +1,15 @@
 package com.example.newsapp
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class NewsAdapter(private val items : ArrayList<String>,private val listener : NewsItemClicked): RecyclerView.Adapter<NewsViewHolder>() {
+class NewsAdapter(private val listener : NewsItemClicked): RecyclerView.Adapter<NewsViewHolder>() {
+    private val items : ArrayList<News> = ArrayList()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
 
         //layoutInflater coverts xml into view which can be thus passed into view holder
@@ -25,11 +28,20 @@ class NewsAdapter(private val items : ArrayList<String>,private val listener : N
         val currentItem = items[position]
 
         //then passes that item into viewHolder
-        holder.titleView.text = currentItem
+        holder.titleView.text = currentItem.title
     }
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateNews(updatedNews: ArrayList<News>) {
+        items.clear()
+        items.addAll(updatedNews)
+
+        //this will re rerun the adapter to show new changes
+        notifyDataSetChanged()
     }
 }
 
@@ -38,5 +50,5 @@ class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 }
 
 interface  NewsItemClicked {
-    fun onItemClicked(item : String)
+    fun onItemClicked(item : News)
 }
